@@ -23,7 +23,7 @@ const Header = () => {
               <>
                 {
                   <Nav.Link href="#">
-                    {localStorage.name}({localStorage.role})
+                    {localStorage.name} ({localStorage.role})
                   </Nav.Link>
                 }
                 <Nav.Link

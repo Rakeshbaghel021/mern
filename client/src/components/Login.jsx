@@ -24,7 +24,6 @@ function Login({ setIsLogin }) {
         password: user.password,
       });
       setUser({ email: "", password: "" });
-      console.log(res);
       alert("user Successfully Login");
       localStorage.setItem("tokenStore", res.data.token);
       localStorage.setItem("name", res.data.user);

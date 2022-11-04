@@ -40,7 +40,6 @@ const userCtrl = {
         name: user.username,
       };
       const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-      // console.log(user, "fg");
       res.json({
         role: user.role,
         token,

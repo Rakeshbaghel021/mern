@@ -10,6 +10,8 @@ const Dashboard = () => {
   let navigate = useNavigate();
   const [userdataCount, setuserdataCount] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const [modalShows, setModalShows] = useState(false);
+
   const [datalist, setdatalist] = useState([]);
   const [mainadmin, setmainadmin] = useState(0);
   const [subadmin, setsubadmin] = useState(0);
@@ -21,7 +23,6 @@ const Dashboard = () => {
 
   const fetchUsers = async () => {
     const res = await axios.get("/users/allusers");
-    console.log(res.data, "test");
     let users = res.data ? res.data.filter((user) => user.role === "User") : [];
     let mainadmins = res.data
       ? res.data.filter((user) => user.role === "mainAdmin")
@@ -76,7 +77,14 @@ const Dashboard = () => {
         <Card.Body>
           <Card.Title>Number of Admins</Card.Title>
           <Card.Text>{mainadmin + subadmin}</Card.Text>
-          <Button variant="primary">click here to see</Button>
+          <Button variant="primary" onClick={() => setModalShows(true)}>
+            click here to see
+          </Button>
+          <MyVerticallyCenteredModals
+            datalist={datalist}
+            show={modalShows}
+            onHide={() => setModalShows(false)}
+          />
         </Card.Body>
       </Card>
     </div>
@@ -84,7 +92,6 @@ const Dashboard = () => {
 };
 
 function MyVerticallyCenteredModal(props) {
-  console.log(props);
   return (
     <Modal
       {...props}
@@ -117,5 +124,37 @@ function MyVerticallyCenteredModal(props) {
     </Modal>
   );
 }
-
+function MyVerticallyCenteredModals(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          List of All Admins
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {props.datalist
+          .filter((user) => user.role !== "User")
+          .map((item) => {
+            return (
+              <>
+                <ListGroup as="ol">
+                  <ListGroup.Item as="li">{item.username}</ListGroup.Item>
+                </ListGroup>
+                <p></p>
+              </>
+            );
+          })}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 export default Dashboard;
