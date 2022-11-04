@@ -14,4 +14,7 @@ router.post("/login", userCtrl.loginUser);
 
 router.get("/verify", userCtrl.verifiedToken);
 
+// get all users
+router.get("/allusers", userCtrl.getAllusers);
+
 module.exports = router;
